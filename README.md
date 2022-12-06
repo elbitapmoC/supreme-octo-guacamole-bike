@@ -32,11 +32,6 @@ Example:
 
 ---
 
-// ------------------------------------------------------------------------
-// A function should exist to display all Bikes at a particular station
-// A function should exist to display all of a Station's Sponsors
-// ------------------------------------------------------------------------
-
 ## Part 2: Stations and Sponsors
 
 - Can check out / return bikes to multiple locations.
