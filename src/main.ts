@@ -20,7 +20,7 @@ class Bike {
   }
 }
 
-class BikeShareCentralSystem {
+class BikeShare {
   bikes: BikeType[] = [];
 
   addBike(bike: BikeType) {
@@ -54,7 +54,7 @@ class BikeShareCentralSystem {
 }
 
 // Central Share System - Where users can checkout and return bikes.
-let central = new BikeShareCentralSystem();
+let central = new BikeShare();
 
 // Create Bikes
 let bike1 = new Bike("Bike 1");
