@@ -1,102 +1,90 @@
 import "./style.css";
-import typescriptLogo from "./typescript.svg";
+import { v4 as uuidv4 } from "uuid";
 
-document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://www.typescriptlang.org/" target="_blank">
-      <img src="${typescriptLogo}" class="logo vanilla" alt="TypeScript logo" />
-    </a>
-    <h1>Vite + TypeScript</h1>
-    <p class="read-the-docs">
-      Click on the Vite and TypeScript logos to learn more
-    </p>
-  </div>
-`;
-
-// When a bike is added, it's created within the bike share system.
-class Bikes {
+interface BikeType {
+  id: string;
   name: string;
+  completedTrips: number;
   checkedOut: boolean;
-  trips: number;
-
+}
+class Bike {
+  id: string;
+  name: string;
+  completedTrips: number;
+  checkedOut: boolean;
   constructor(name: string) {
+    this.id = uuidv4();
     this.name = name;
+    this.completedTrips = 0;
     this.checkedOut = false;
-    this.trips = 0;
   }
 }
 
 class BikeShareCentralSystem {
-  bikes: Bikes[] = [];
+  bikes: BikeType[] = [];
 
-  constructor(bikes: Bikes) {
-    this.bikes.push(bikes);
+  addBike(bike: BikeType) {
+    this.bikes.push(bike);
   }
 
-  getAllCheckedout = () => {
-    // Get bikes that are currently checked out
-  };
+  checkoutBike(bike: BikeType) {
+    bike.checkedOut = true;
+  }
 
-  getMetrics = () => {
-    // Show completed trips.
-  };
+  returnBike(bike: BikeType) {
+    bike.checkedOut = false;
+    bike.completedTrips += 1;
+  }
 
-  addBike = (bikes: Bikes) => {
-    this.bikes.push(bikes);
-  };
+  getBikeMetrics() {
+    this.bikes.map((bike: BikeType) => {
+      console.log(`${bike.name} has had ${bike.completedTrips} trips`);
+    });
+  }
 
-  checkoutBike = () => {
-    // this.checkedOut = true;
-    // console.log(`${this.name} is checked out`);
-  };
+  getCheckedoutBikes() {
+    const bikesCheckedOut = this.bikes.filter((bike: BikeType) => {
+      return bike.checkedOut === true;
+    });
 
-  returnBike = () => {
-    // if (this.checkedOut) {
-    //   this.checkedOut = false;
-    //   console.log(`${this.name} has been returned`);
-    //   this.trips += 1;
-    // }
-  };
+    bikesCheckedOut.forEach((bikeCheckedOut) => {
+      console.log(bikeCheckedOut.name);
+    });
+  }
 }
 
-let bike1 = new Bikes("Bike 1");
-let bike2 = new Bikes("Bike 2");
-let bike7 = new Bikes("Bike 7");
+// Central Share System - Where users can checkout and return bikes.
+let central = new BikeShareCentralSystem();
 
-let central = new BikeShareCentralSystem(bike1);
+// Create Bikes
+let bike1 = new Bike("Bike 1");
+let bike2 = new Bike("Bike 2");
+let bike7 = new Bike("Bike 7");
+
+// Add Bikes to Central Bike Share System
+central.addBike(bike1);
 central.addBike(bike2);
 central.addBike(bike7);
 
-console.log(central);
+// Check out and return ‘Bike 1’ three times.
+central.checkoutBike(bike1);
+central.returnBike(bike1);
+central.checkoutBike(bike1);
+central.returnBike(bike1);
+central.checkoutBike(bike1);
+central.returnBike(bike1);
 
-// bike1.checkoutBike();
-// bike1.returnBike();
-// bike1.checkoutBike();
-// bike1.returnBike();
-// bike1.checkoutBike();
-// bike1.returnBike();
+// Check out and return ‘Bike 2’ two times.
+central.checkoutBike(bike2);
+central.returnBike(bike2);
+central.checkoutBike(bike2);
+central.returnBike(bike2);
 
-// bike2.checkoutBike();
-// bike2.returnBike();
-// bike2.checkoutBike();
-// bike2.returnBike();
+// Check out and do NOT return ‘Bike 7’ two times.
+central.checkoutBike(bike7);
 
-// bike7.checkoutBike();
+// // Get usage metrics for each bike
+central.getBikeMetrics();
 
-// Example:
-
-// ✅ - Add ‘Bike 1’, ‘Bike 2’, and ‘Bike 7’ to the bike share
-// ✅ - Check out and return ‘Bike 1’ three
-// ✅ - Check out and return ‘Bike 2’ two (2) times.
-// ✅ - Check out but do not return ‘Bike 7’.
-
-// - Get usage metrics for each bike, prints:
-//   - “Bike 1 has had 3 trips”
-//   - “Bike 2 has had 2 trips”
-//   - “Bike 7 has had 0 trips”
-
-// - Get all bikes that are currently checked out, which should print:
-//   - “Bike 7”
+// // Get all bikes that are currently checked out
+central.getCheckedoutBikes();
