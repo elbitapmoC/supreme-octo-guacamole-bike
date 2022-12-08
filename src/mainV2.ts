@@ -23,7 +23,8 @@ class Bike {
 class BikeShare {
   bikes: BikeType[] = [];
 
-  addBike(bike: BikeType) {
+  // Adds bike
+  checkInBike(bike: BikeType) {
     this.bikes.push(bike);
   }
 
@@ -62,9 +63,9 @@ let bike2 = new Bike("Bike 2");
 let bike7 = new Bike("Bike 7");
 
 // Add Bikes to Central Bike Share System
-central.addBike(bike1);
-central.addBike(bike2);
-central.addBike(bike7);
+central.checkInBike(bike1);
+central.checkInBike(bike2);
+central.checkInBike(bike7);
 
 // Check out and return ‘Bike 1’ three times.
 central.checkOutBike(bike1);
