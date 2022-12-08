@@ -1,20 +1,6 @@
 import "./style.css";
 import { v4 as uuidv4 } from "uuid";
 
-interface BikeType {
-  id: string;
-  name: string;
-  completedTrips: number;
-  checkedOut: boolean;
-}
-
-interface StationType {
-  id: string;
-  name: string;
-  sponsors: any[];
-  capacity: number;
-}
-
 class Bike {
   id: string;
   name: string;
@@ -27,46 +13,32 @@ class Bike {
     this.checkedOut = false;
   }
 }
-
-class BikeShare {
-  stations: StationType[] = [];
-  sponsors: string[] = [];
-
-  addStation(station: any) {
-    this.stations.push(station);
-  }
-
-  addSponsor(sponsor: string) {
-    this.sponsors.push(sponsor);
-  }
-}
-
-class Station extends BikeShare {
+class Station {
   id: string;
   name: string;
-  sponsors: any[] = [];
   capacity: number; // 3, 5, or 10
-  bikes: BikeType[] = [];
+  bikes: Bike[];
+  sponsors: string[];
 
   // Default capaity of 3 if not assigned.
   constructor(name: string, capacity = 3) {
-    super();
     this.id = uuidv4();
     this.name = name;
     this.sponsors = [];
+    this.bikes = [];
     this.capacity = capacity;
   }
 
   // Adds bike
-  addBike(bike: BikeType) {
+  addBike(bike: Bike) {
     this.bikes.push(bike);
   }
 
-  checkOutBike(bike: BikeType) {
+  checkOutBike(bike: Bike) {
     bike.checkedOut = true;
   }
 
-  returnBike(bike: BikeType) {
+  returnBike(bike: Bike) {
     bike.checkedOut = false;
     bike.completedTrips += 1;
   }
@@ -81,13 +53,13 @@ class Station extends BikeShare {
   }
 
   getBikeMetrics() {
-    this.bikes.map((bike: BikeType) => {
+    this.bikes.map((bike: Bike) => {
       console.log(`${bike.name} has had ${bike.completedTrips} trips`);
     });
   }
 
   getCheckedOutBikes() {
-    const bikesCheckedOut = this.bikes.filter((bike: BikeType) => {
+    const bikesCheckedOut = this.bikes.filter((bike: Bike) => {
       return bike.checkedOut === true;
     });
 
@@ -100,6 +72,43 @@ class Station extends BikeShare {
     this.sponsors.map((sponsor: any) => {
       console.log(`Sponsors for ${this.name}: ${sponsor}`);
     });
+  }
+
+  addSponsor(sponsor: string): void {
+    this.sponsors.push(sponsor);
+  }
+
+  removeSponsor(sponsor: string): void {
+    for (let i = 0; i < this.sponsors.length; i++) {
+      if (this.sponsors[i] === sponsor) {
+        this.sponsors.splice(i, 1);
+        // break keep as optional.
+      }
+    }
+  }
+}
+
+class BikeShare {
+  stations: Station[] = [];
+
+  addStation(station: Station) {
+    this.stations.push(station);
+  }
+  checkedoutcheckin(bike: Bike, station1: string, station2: string) {
+    let index1: number = -1;
+    let index2: number = -1;
+    for (var i = 0; i < this.stations.length; i++) {
+      if (this.stations[i].name === station1) {
+        index1 = i;
+      }
+      if (this.stations[i].name === station2) {
+        index2 = i;
+      }
+    }
+    if (index1 >= 0 && index2 >= 0) {
+      this.stations[index1].checkOutBike(bike);
+      this.stations[index2].returnBike(bike);
+    }
   }
 }
 
@@ -118,7 +127,7 @@ let bike7 = new Bike("Bike 7");
 let sponsorA = "Sponsor A";
 let sponsorB = "Sponsor B";
 let sponsorC = "Sponsor C";
-let sponsorD = "Sponsor D";
+// let sponsorD = "Sponsor D";
 
 // Central Share System - Where users can checkout and return bikes.
 let central = new BikeShare();
@@ -128,12 +137,6 @@ central.addStation(station1);
 central.addStation(station2);
 central.addStation(station3);
 central.addStation(station4);
-
-// Add Sponsors to Bike Share
-central.addSponsor(sponsorA);
-central.addSponsor(sponsorB);
-central.addSponsor(sponsorC);
-central.addSponsor(sponsorD);
 
 // Check in ‘Bike 1’, & ‘Bike 2’ to ‘Station 1’
 station1.addBike(bike1);
@@ -147,13 +150,10 @@ station1.checkOutBike(bike2);
 
 // Add ‘Sponsor A’ to ‘Station 1’
 station1.addSponsor(sponsorA);
-
 // Add ‘Sponsor B’ to ‘Station 2’
 station2.addSponsor(sponsorB);
-
 // Add ‘Sponsor C’ to ‘Station 3’
 station3.addSponsor(sponsorC);
-
 // Add‘Sponsor A’ & ‘Sponsor C’ to ‘Station 4
 station4.addSponsor(sponsorA);
 station4.addSponsor(sponsorC);

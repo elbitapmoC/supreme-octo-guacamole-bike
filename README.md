@@ -33,22 +33,17 @@ Example:
 
 ## Part 2: Stations and Sponsors
 
-**Central Share System**
-
-- Can add stations (see below)
-- Can add sponsors (will be used inside Station)
-
-**Station**
-
-- Can check out / return bikes to multiple locations.
-- (INSTEAD of from Central Share System)
-  - Can checkout bike
-  - Can return a bike
-- List all bikes available at station
-- List all station sponsors
-  - Has Capacity (3, 5, 10)
-  - Can add sponsor(s), 1 or more.
-  - Can remove sponsor
+<!--
+ - Give users the ability to check out or return bikes to multiple locations (stations).
+- Stations accept sponsors
+    - Each station can have one or more sponsors.
+- Stations have a capacity of 3, 5, or 10 bikes within the Bike Share.
+- Can add a station to the bike share
+- Can check out or return a bike to/from a station.
+- Can add/remove a sponsor(s) to/from a station.
+- Can display all bikes currently available at a station.
+- Can list all of a stations’ sponsors
+-->
 
 Example:
 

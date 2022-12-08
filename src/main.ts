@@ -1,12 +1,5 @@
 import "./style.css";
 import { v4 as uuidv4 } from "uuid";
-
-interface BikeType {
-  id: string;
-  name: string;
-  completedTrips: number;
-  checkedOut: boolean;
-}
 class Bike {
   id: string;
   name: string;
@@ -21,30 +14,30 @@ class Bike {
 }
 
 class BikeShare {
-  bikes: BikeType[] = [];
+  bikes: Bike[] = [];
 
   // Adds bike
-  addBike(bike: BikeType) {
+  addBike(bike: Bike) {
     this.bikes.push(bike);
   }
 
-  checkOutBike(bike: BikeType) {
+  checkOutBike(bike: Bike) {
     bike.checkedOut = true;
   }
 
-  returnBike(bike: BikeType) {
+  returnBike(bike: Bike) {
     bike.checkedOut = false;
     bike.completedTrips += 1;
   }
 
   getBikeMetrics() {
-    this.bikes.map((bike: BikeType) => {
+    this.bikes.map((bike: Bike) => {
       console.log(`${bike.name} has had ${bike.completedTrips} trips`);
     });
   }
 
   getCheckedOutBikes() {
-    const bikesCheckedOut = this.bikes.filter((bike: BikeType) => {
+    const bikesCheckedOut = this.bikes.filter((bike: Bike) => {
       return bike.checkedOut === true;
     });
 
