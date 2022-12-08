@@ -24,25 +24,27 @@ class Station {
   }
 
   // Adds bike
-  addBike(bike: Bike) {
+  addBike(bike: Bike): void {
     this.bikes.push(bike);
   }
 
-  checkOutBike(bike: Bike) {
+  checkOutBike(bike: Bike): void {
     bike.checkedOut = true;
   }
 
-  returnBike(bike: Bike) {
-    bike.checkedOut = false;
-    bike.completedTrips += 1;
+  returnBike(bike: Bike): void {
+    if (bike.checkedOut) {
+      bike.checkedOut = false;
+      bike.completedTrips += 1;
+    }
   }
 
   getAvailableBikes() {
-    let availableBikes = this.bikes.filter((bike: any) => {
+    let availableBikes = this.bikes.filter((bike: Bike) => {
       return bike.checkedOut === false;
     });
 
-    return availableBikes.forEach((bike: any) => {
+    return availableBikes.forEach((bike: Bike) => {
       console.log(`${bike.name} is available at ${this.name}`);
       return `${bike.name} is available at ${this.name}`;
     });
@@ -67,7 +69,7 @@ class Station {
   }
 
   getSponsors() {
-    return this.sponsors.forEach((sponsor: any) => {
+    return this.sponsors.forEach((sponsor: string) => {
       console.log(`Sponsors for ${this.name}: ${sponsor}`);
       return `Sponsors for ${this.name}: ${sponsor}`;
     });
@@ -81,9 +83,10 @@ class Station {
     for (let i = 0; i < this.sponsors.length; i++) {
       if (this.sponsors[i] === sponsor) {
         this.sponsors.splice(i, 1);
-        // break keep as optional.
+        break;
       }
     }
+    console.log(this.sponsors);
   }
 }
 
@@ -92,22 +95,6 @@ class BikeShare {
 
   addStation(station: Station) {
     this.stations.push(station);
-  }
-  checkedoutcheckin(bike: Bike, station1: string, station2: string) {
-    let index1: number = -1;
-    let index2: number = -1;
-    for (var i = 0; i < this.stations.length; i++) {
-      if (this.stations[i].name === station1) {
-        index1 = i;
-      }
-      if (this.stations[i].name === station2) {
-        index2 = i;
-      }
-    }
-    if (index1 >= 0 && index2 >= 0) {
-      this.stations[index1].checkOutBike(bike);
-      this.stations[index2].returnBike(bike);
-    }
   }
 }
 
@@ -126,9 +113,9 @@ let bike7 = new Bike("Bike 7");
 let sponsorA = "Sponsor A";
 let sponsorB = "Sponsor B";
 let sponsorC = "Sponsor C";
-// let sponsorD = "Sponsor D";
+let sponsorD = "Sponsor D";
 
-// Central Share System - Where users can checkout and return bikes.
+// Central Share System - Stations will be added here.
 let central = new BikeShare();
 
 // Add Stations to Bike Share
@@ -156,6 +143,10 @@ station3.addSponsor(sponsorC);
 // Add‘Sponsor A’ & ‘Sponsor C’ to ‘Station 4
 station4.addSponsor(sponsorA);
 station4.addSponsor(sponsorC);
+
+// Extras
+station4.addSponsor(sponsorD);
+station4.removeSponsor(sponsorD);
 
 // Get sponsors per station
 station1.getSponsors();
