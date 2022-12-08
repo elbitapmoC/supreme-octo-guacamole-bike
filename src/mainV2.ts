@@ -11,7 +11,7 @@ interface BikeType {
 interface StationType {
   id: string;
   name: string;
-  sponsor: any[];
+  sponsors: any[];
   capacity: number;
 }
 
@@ -28,23 +28,7 @@ class Bike {
   }
 }
 
-class Station {
-  id: string;
-  name: string;
-  sponsor: any[] = [];
-  capacity: number; // 3, 5, or 10
-
-  // Default capaity of 3 if not assigned.
-  constructor(name: string, capacity = 3) {
-    this.id = uuidv4();
-    this.name = name;
-    this.sponsor = [];
-    this.capacity = capacity;
-  }
-}
-
 class BikeShare {
-  bikes: BikeType[] = [];
   stations: StationType[] = [];
   sponsors: string[] = [];
 
@@ -54,6 +38,23 @@ class BikeShare {
 
   addSponsor(sponsor: string) {
     this.sponsors.push(sponsor);
+  }
+}
+
+class Station extends BikeShare {
+  id: string;
+  name: string;
+  sponsors: any[] = [];
+  capacity: number; // 3, 5, or 10
+  bikes: BikeType[] = [];
+
+  // Default capaity of 3 if not assigned.
+  constructor(name: string, capacity = 3) {
+    super();
+    this.id = uuidv4();
+    this.name = name;
+    this.sponsors = [];
+    this.capacity = capacity;
   }
 
   // Adds bike
@@ -68,6 +69,15 @@ class BikeShare {
   returnBike(bike: BikeType) {
     bike.checkedOut = false;
     bike.completedTrips += 1;
+  }
+
+  getAvailableBikes() {
+    let availableBikes = this.bikes.filter((bike: any) => {
+      return bike.checkedOut === false;
+    });
+    availableBikes.map((bike: any) => {
+      console.log(`${bike.name} is available at ${this.name}`);
+    });
   }
 
   getBikeMetrics() {
@@ -85,17 +95,77 @@ class BikeShare {
       console.log(bikeCheckedOut.name);
     });
   }
+
+  getSponsors() {
+    this.sponsors.map((sponsor: any) => {
+      console.log(`Sponsors for ${this.name}: ${sponsor}`);
+    });
+  }
 }
 
-// Central Share System - Where users can checkout and return bikes.
-let central = new BikeShare();
-
+// Create Stations
 let station1 = new Station("Station 1");
 let station2 = new Station("Station 2");
 let station3 = new Station("Station 3");
 let station4 = new Station("Station 4");
 
+// Create Bikes
+let bike1 = new Bike("Bike 1");
+let bike2 = new Bike("Bike 2");
+let bike7 = new Bike("Bike 7");
+
+// Create Sponsors
+let sponsorA = "Sponsor A";
+let sponsorB = "Sponsor B";
+let sponsorC = "Sponsor C";
+let sponsorD = "Sponsor D";
+
+// Central Share System - Where users can checkout and return bikes.
+let central = new BikeShare();
+
+// Add Stations to Bike Share
 central.addStation(station1);
 central.addStation(station2);
 central.addStation(station3);
 central.addStation(station4);
+
+// Add Sponsors to Bike Share
+central.addSponsor(sponsorA);
+central.addSponsor(sponsorB);
+central.addSponsor(sponsorC);
+central.addSponsor(sponsorD);
+
+// Check in ‘Bike 1’, & ‘Bike 2’ to ‘Station 1’
+station1.addBike(bike1);
+station1.addBike(bike2);
+
+// Check in ‘Bike 7’ to ‘Station 2’
+station2.addBike(bike7);
+
+// Check out ‘Bike 2’ from ‘Station 1’
+station1.checkOutBike(bike2);
+
+// Add ‘Sponsor A’ to ‘Station 1’
+station1.addSponsor(sponsorA);
+
+// Add ‘Sponsor B’ to ‘Station 2’
+station2.addSponsor(sponsorB);
+
+// Add ‘Sponsor C’ to ‘Station 3’
+station3.addSponsor(sponsorC);
+
+// Add‘Sponsor A’ & ‘Sponsor C’ to ‘Station 4
+station4.addSponsor(sponsorA);
+station4.addSponsor(sponsorC);
+
+// Get sponsors per station
+station1.getSponsors();
+station2.getSponsors();
+station3.getSponsors();
+station4.getSponsors();
+
+// Get available Bikes per station
+station1.getAvailableBikes();
+station2.getAvailableBikes();
+station3.getAvailableBikes();
+station4.getAvailableBikes();

@@ -52,7 +52,7 @@ Example:
 
 Example:
 
-- Add to Bike Share: ✅
+- Add to Bike Share:
 
   - ‘Station 1’, ‘Station 2’, ‘Station 3’, and ‘Station 4’
   - ‘Sponsor A’, ‘Sponsor B’, ‘Sponsor C’, and ‘Sponsor D’
