@@ -21,15 +21,19 @@ class Bike {
 }
 
 class BikeShare {
-  stations: any[] = [];
-  sponsors: any[] = [];
+  bikes: BikeType[] = [];
 
-  constructor(name: string) {
-    this.stations.push(name);
+  addBike(bike: BikeType) {
+    this.bikes.push(bike);
   }
 
-  addStation(station: any) {
-    this.stations.push(station);
+  checkOutBike(bike: BikeType) {
+    bike.checkedOut = true;
+  }
+
+  returnBike(bike: BikeType) {
+    bike.checkedOut = false;
+    bike.completedTrips += 1;
   }
 
   getBikeMetrics() {
@@ -49,57 +53,38 @@ class BikeShare {
   }
 }
 
-class Station extends BikeShare {
-  bikes: BikeType[] = [];
-  sponsors: any[] = [];
-  capacity: number;
-  name: string;
-
-  addBike(bike: BikeType) {
-    this.bikes.push(bike);
-  }
-
-  constructor(name: string) {
-    super();
-    this.name = name;
-  }
-
-  checkOutBike(bike: BikeType) {
-    bike.checkedOut = true;
-  }
-
-  returnBike(bike: BikeType) {
-    bike.checkedOut = false;
-    bike.completedTrips += 1;
-  }
-
-  // Can add sponsors to each station.
-  addSponsor(sponsor: any) {
-    this.sponsors.push(sponsor);
-  }
-
-  getSponsors() {}
-
-  getAvailableBikes() {
-    // Lists all bikes currently in the station (not checked out)
-  }
-
-  setCapacity(capacity: number) {
-    this.capacity = capacity;
-  }
-
-  removeSponsor(sponsor: any) {}
-}
-
-// Central Share System - Update: Remove ability to checkout and return bikes from here.
+// Central Share System - Where users can checkout and return bikes.
 let central = new BikeShare();
 
-// Can checkout and return from different stations
-let station1 = new BikeShare("Station 1");
-let station2 = new BikeShare("Station 2");
-let station3 = new BikeShare("Station 3");
-let station4 = new BikeShare("Station 4");
-
+// Create Bikes
 let bike1 = new Bike("Bike 1");
+let bike2 = new Bike("Bike 2");
+let bike7 = new Bike("Bike 7");
 
+// Add Bikes to Central Bike Share System
 central.addBike(bike1);
+central.addBike(bike2);
+central.addBike(bike7);
+
+// Check out and return ‘Bike 1’ three times.
+central.checkOutBike(bike1);
+central.returnBike(bike1);
+central.checkOutBike(bike1);
+central.returnBike(bike1);
+central.checkOutBike(bike1);
+central.returnBike(bike1);
+
+// Check out and return ‘Bike 2’ two times.
+central.checkOutBike(bike2);
+central.returnBike(bike2);
+central.checkOutBike(bike2);
+central.returnBike(bike2);
+
+// Check out and do NOT return ‘Bike 7’ two times.
+central.checkOutBike(bike7);
+
+// // Get usage metrics for each bike
+central.getBikeMetrics();
+
+// // Get all bikes that are currently checked out
+central.getCheckedOutBikes();
