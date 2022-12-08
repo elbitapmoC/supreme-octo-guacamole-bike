@@ -52,12 +52,9 @@ Example:
 
 Example:
 
-- Add four (4) stations to Bike Share:
+- Add to Bike Share: ✅
 
   - ‘Station 1’, ‘Station 2’, ‘Station 3’, and ‘Station 4’
-
-- Add four (4) sponsors to Bike Share:
-
   - ‘Sponsor A’, ‘Sponsor B’, ‘Sponsor C’, and ‘Sponsor D’
 
 - Check in ‘Bike 1’, & ‘Bike 2’ to ‘Station 1’

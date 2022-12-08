@@ -7,6 +7,14 @@ interface BikeType {
   completedTrips: number;
   checkedOut: boolean;
 }
+
+interface StationType {
+  id: string;
+  name: string;
+  sponsor: any[];
+  capacity: number;
+}
+
 class Bike {
   id: string;
   name: string;
@@ -20,11 +28,36 @@ class Bike {
   }
 }
 
+class Station {
+  id: string;
+  name: string;
+  sponsor: any[] = [];
+  capacity: number; // 3, 5, or 10
+
+  // Default capaity of 3 if not assigned.
+  constructor(name: string, capacity = 3) {
+    this.id = uuidv4();
+    this.name = name;
+    this.sponsor = [];
+    this.capacity = capacity;
+  }
+}
+
 class BikeShare {
   bikes: BikeType[] = [];
+  stations: StationType[] = [];
+  sponsors: string[] = [];
+
+  addStation(station: any) {
+    this.stations.push(station);
+  }
+
+  addSponsor(sponsor: string) {
+    this.sponsors.push(sponsor);
+  }
 
   // Adds bike
-  checkInBike(bike: BikeType) {
+  addBike(bike: BikeType) {
     this.bikes.push(bike);
   }
 
@@ -57,35 +90,12 @@ class BikeShare {
 // Central Share System - Where users can checkout and return bikes.
 let central = new BikeShare();
 
-// Create Bikes
-let bike1 = new Bike("Bike 1");
-let bike2 = new Bike("Bike 2");
-let bike7 = new Bike("Bike 7");
+let station1 = new Station("Station 1");
+let station2 = new Station("Station 2");
+let station3 = new Station("Station 3");
+let station4 = new Station("Station 4");
 
-// Add Bikes to Central Bike Share System
-central.checkInBike(bike1);
-central.checkInBike(bike2);
-central.checkInBike(bike7);
-
-// Check out and return ‘Bike 1’ three times.
-central.checkOutBike(bike1);
-central.returnBike(bike1);
-central.checkOutBike(bike1);
-central.returnBike(bike1);
-central.checkOutBike(bike1);
-central.returnBike(bike1);
-
-// Check out and return ‘Bike 2’ two times.
-central.checkOutBike(bike2);
-central.returnBike(bike2);
-central.checkOutBike(bike2);
-central.returnBike(bike2);
-
-// Check out and do NOT return ‘Bike 7’ two times.
-central.checkOutBike(bike7);
-
-// // Get usage metrics for each bike
-central.getBikeMetrics();
-
-// // Get all bikes that are currently checked out
-central.getCheckedOutBikes();
+central.addStation(station1);
+central.addStation(station2);
+central.addStation(station3);
+central.addStation(station4);
