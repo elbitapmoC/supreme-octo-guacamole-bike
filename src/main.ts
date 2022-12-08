@@ -1,12 +1,9 @@
 import "./style.css";
-import { v4 as uuidv4 } from "uuid";
 class Bike {
-  id: string;
   name: string;
   completedTrips: number;
   checkedOut: boolean;
   constructor(name: string) {
-    this.id = uuidv4();
     this.name = name;
     this.completedTrips = 0;
     this.checkedOut = false;
@@ -26,13 +23,16 @@ class BikeShare {
   }
 
   returnBike(bike: Bike) {
-    bike.checkedOut = false;
-    bike.completedTrips += 1;
+    if (bike.checkedOut) {
+      bike.checkedOut = false;
+      bike.completedTrips += 1;
+    }
   }
 
   getBikeMetrics() {
-    this.bikes.map((bike: Bike) => {
+    return this.bikes.forEach((bike: Bike) => {
       console.log(`${bike.name} has had ${bike.completedTrips} trips`);
+      return `${bike.name} has had ${bike.completedTrips} trips`;
     });
   }
 
@@ -41,8 +41,9 @@ class BikeShare {
       return bike.checkedOut === true;
     });
 
-    bikesCheckedOut.forEach((bikeCheckedOut) => {
+    return bikesCheckedOut.forEach((bikeCheckedOut) => {
       console.log(bikeCheckedOut.name);
+      return bikeCheckedOut.name;
     });
   }
 }

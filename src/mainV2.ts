@@ -1,20 +1,15 @@
 import "./style.css";
-import { v4 as uuidv4 } from "uuid";
-
 class Bike {
-  id: string;
   name: string;
   completedTrips: number;
   checkedOut: boolean;
   constructor(name: string) {
-    this.id = uuidv4();
     this.name = name;
     this.completedTrips = 0;
     this.checkedOut = false;
   }
 }
 class Station {
-  id: string;
   name: string;
   capacity: number; // 3, 5, or 10
   bikes: Bike[];
@@ -22,7 +17,6 @@ class Station {
 
   // Default capaity of 3 if not assigned.
   constructor(name: string, capacity = 3) {
-    this.id = uuidv4();
     this.name = name;
     this.sponsors = [];
     this.bikes = [];
@@ -47,14 +41,17 @@ class Station {
     let availableBikes = this.bikes.filter((bike: any) => {
       return bike.checkedOut === false;
     });
-    availableBikes.map((bike: any) => {
+
+    return availableBikes.forEach((bike: any) => {
       console.log(`${bike.name} is available at ${this.name}`);
+      return `${bike.name} is available at ${this.name}`;
     });
   }
 
   getBikeMetrics() {
-    this.bikes.map((bike: Bike) => {
+    return this.bikes.forEach((bike: Bike) => {
       console.log(`${bike.name} has had ${bike.completedTrips} trips`);
+      return `${bike.name} has had ${bike.completedTrips} trips`;
     });
   }
 
@@ -63,14 +60,16 @@ class Station {
       return bike.checkedOut === true;
     });
 
-    bikesCheckedOut.forEach((bikeCheckedOut) => {
+    return bikesCheckedOut.forEach((bikeCheckedOut) => {
       console.log(bikeCheckedOut.name);
+      return bikeCheckedOut.name;
     });
   }
 
   getSponsors() {
-    this.sponsors.map((sponsor: any) => {
+    return this.sponsors.forEach((sponsor: any) => {
       console.log(`Sponsors for ${this.name}: ${sponsor}`);
+      return `Sponsors for ${this.name}: ${sponsor}`;
     });
   }
 

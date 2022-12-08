@@ -34,7 +34,6 @@ Example:
 ## Part 2: Stations and Sponsors
 
 <!--
- - Give users the ability to check out or return bikes to multiple locations (stations).
 - Stations accept sponsors
     - Each station can have one or more sponsors.
 - Stations have a capacity of 3, 5, or 10 bikes within the Bike Share.
